@@ -87,12 +87,12 @@ public class ServicioRecurso {
         return respuesta;
     }
 
-    public RespuestaDTO regresarRecurso(String id){
+    public RespuestaDTO regresarRecurso(String id) {
         RespuestaDTO respuestaDTO = new RespuestaDTO();
         LocalDate fecha = LocalDate.now();
         Recurso recurso = repositorioRecurso.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró el recurso"));
-        if (!recurso.isDisponible()){
+        if (!recurso.isDisponible()) {
             recurso.setDisponible(true);
             recurso.setFecha(fecha);
             repositorioRecurso.save(recurso);
@@ -108,9 +108,9 @@ public class ServicioRecurso {
         return respuestaDTO;
     }
 
-    public List<RecursoDTO> recursosRecomendadosPorTipo(String tipo){
+    public List<RecursoDTO> recursosRecomendadosPorTipo(String tipo) {
         List<RecursoDTO> recursosList = obtenerTodos();
-        if (!tipo.equalsIgnoreCase("none")){
+        if (!tipo.equalsIgnoreCase("none")) {
             return recursosList.stream()
                     .filter(recursoDTO -> recursoDTO.getTipo().equalsIgnoreCase(tipo))
                     .collect(Collectors.toList());
@@ -118,9 +118,9 @@ public class ServicioRecurso {
         return recursosList;
     }
 
-    public List<RecursoDTO> recursosRecomendadosPorAreaTematica(String areaTematica){
+    public List<RecursoDTO> recursosRecomendadosPorAreaTematica(String areaTematica) {
         List<RecursoDTO> recursosList = obtenerTodos();
-        if (!areaTematica.equalsIgnoreCase("none")){
+        if (!areaTematica.equalsIgnoreCase("none")) {
             return recursosList.stream()
                     .filter(recursoDTO -> recursoDTO.getAreaTematica().equalsIgnoreCase(areaTematica))
                     .collect(Collectors.toList());
@@ -128,9 +128,9 @@ public class ServicioRecurso {
         return recursosList;
     }
 
-    public List<RecursoDTO> recursosRecomendadosPorAreaTematicaYTipo(String areaTematica, String tipo){
+    public List<RecursoDTO> recursosRecomendadosPorAreaTematicaYTipo(String areaTematica, String tipo) {
         List<RecursoDTO> recursosList = obtenerTodos();
-        if (isClasificado(areaTematica, tipo)){
+        if (isClasificado(areaTematica, tipo)) {
             return recursosList.stream()
                     .filter(recursoDTO -> recursoDTO.getAreaTematica().equalsIgnoreCase(areaTematica))
                     .filter(recursoDTO -> recursoDTO.getTipo().equalsIgnoreCase(tipo))
@@ -142,6 +142,4 @@ public class ServicioRecurso {
     private boolean isClasificado(String areaTematica, String tipo) {
         return !areaTematica.equalsIgnoreCase("none") && !tipo.equalsIgnoreCase("none");
     }
-
-
 }
